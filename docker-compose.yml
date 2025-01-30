@@ -56,6 +56,39 @@ services:
             memory: 2g
             #cpus: '0.2'
 
+
+############################
+## PROCESSAMENTO
+############################
+
+  spark-master:
+    image: fjardim/mds-spark
+    platform: linux/amd64
+    hostname: spark-master
+    container_name: spark-master
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        /usr/local/spark/sbin/start-master.sh
+        start-notebook.sh --NotebookApp.token=''
+    ports:
+      - 8889:8888
+      - 4040:4040
+      - 4041:4041
+      - 4042:4042
+      - 4043:4043
+      - 38080:8080
+      - 7077:7077
+    volumes:
+      - ./spark/work:/home/user 
+      - ./spark/env:/env 
+      - ./util:/util
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
 #############################
 ## GENERAL
 
